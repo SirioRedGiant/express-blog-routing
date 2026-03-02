@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
+const port = 3000;
 
 app.use(express.static("public"));
-const port = 3000;
 
 //^ Import del router dei post
 const postsRouter = require("./routers/posts");
