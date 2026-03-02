@@ -13,7 +13,18 @@ router.get("/", (req, res) => {
 
 //^ Show --> Dettagli di un singolo post (GET)
 router.get("/:id", (req, res) => {
-  res.send(`Dettagli del post numero ${req.params.id}`);
+  const id = parseInt(req.params.id); // l'ID  dei parametri arriva come stringa e lo trasformo in numero
+  const responseData = {
+    message: `Dettaglio del post ${id} non trovato`,
+    success: false,
+  };
+
+  const post = posts.find((post) => post.id === id); // trovo il post con lo stesso ID
+
+  if (post) {
+    return res.json(post);
+  }
+  res.status(404).json(responseData);
 });
 
 //^ Store --> Creazione di un nuovo post (POST)
