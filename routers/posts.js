@@ -39,7 +39,21 @@ router.put("/:id", (req, res) => {
 
 //^ Destroy --> Eliminazione di un post (DELETE)
 router.delete("/:id", (req, res) => {
-  res.send(`Cancellazione del post ${req.params.id}`);
+  const id = parseInt(req.params.id);
+  const postIndex = posts.findIndex((post) => post.id === id);
+
+  //note Se l'indice è diverso da -1, il post è stato trovato
+  if (postIndex !== -1) {
+    posts.splice(postIndex, 1); // Rimuove 1 elemento alla posizione postIndex
+    console.log(`Post ${id} eliminato. Lista aggiornata:`);
+    res.sendStatus(204); // successo (status 204 significa "No Content", operazione riuscita)
+  } else {
+    //note Se non lo trova, errore 404
+    res.status(404).json({
+      error: "Post non trovato",
+      message: `Impossibile da eliminare, il post ${id} non esiste.`,
+    });
+  }
 });
 
 //^ Esportazione del router
